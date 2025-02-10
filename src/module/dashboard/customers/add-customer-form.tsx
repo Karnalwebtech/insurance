@@ -48,18 +48,11 @@ export default function CustomerForm() {
     resolver: zodResolver(CustomerSchema),
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = (data: FormData) => {
 
     const updatedData: ExtendedFormData = { ...data, addharCard, panCard, document, profileImage }
     console.log(updatedData);
-    const response = await fetch('/api/customers',{
-      method: "POST",
-      headers: {
-      'Content-Type': 'multipart/form-data'
-      },
-      body: JSON.stringify(updatedData)
-    },)
-    console.log(response)
+
     // Here you would typically send this data to your API
   };
 
