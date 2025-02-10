@@ -19,7 +19,7 @@ interface SidebarProps {
 }
 
 interface FileItem {
-    img: string;
+    file: string;
     name: string;
 }
 
@@ -56,11 +56,18 @@ export const Form_sidebar: React.FC<SidebarProps> = ({
         }));
     };
 
-    const View_file_handler = (item: { img?: string; path?: string }) => {
-        if (item.img) {
-            window.open(item.img, "_blank");
-        } else if (item.path) {
+    const View_file_handler = (item:FileItem) => {
+        if (item.file) {
+            window.open(item.file, "_blank");
+        } else if (item.name) {
+            window.open(item.name, "_blank");
+        }
+    };
+    const View_file_handler2 = (item:DataItem) => {
+        if (item.path) {
             window.open(item.path, "_blank");
+        } else if (item.originalname) {
+            window.open(item.originalname, "_blank");
         }
     };
 
@@ -111,20 +118,20 @@ export const Form_sidebar: React.FC<SidebarProps> = ({
                 ) : (
                     <>
                         <div>
-                            {item_visible[index] ? (
+                            {/* {item_visible[index] ? ( */}
                                 <div className="flex w-full flex-wrap gap-2">
                                     {data?.[dataKey]?.map((item: DataItem, i: number) => (
                                         <div key={i} className="w-full">
                                             <Server_image_card src={item.path} alt={item.originalname} width={200} height={200} />
-                                            <Button className="bg-black mt-2 text-white" onClick={() => View_file_handler(item)}>
+                                            <Button className="bg-black mt-2 text-white" onClick={() => View_file_handler2(item)}>
                                                 View
                                             </Button>
                                         </div>
                                     ))}
                                 </div>
-                            ) : (
-                                <Drag_input_field onDrop={(data) => handleDrop(data, field)} type={field === "image" ? "image/*" : "application/pdf"} />
-                            )}
+                            {/* // ) : (
+                            //     <Drag_input_field onDrop={(data) => handleDro(data, field)} type={field === "image" ? "image/*" : "application/pdf"} />
+                            // )} */}
                         </div>
                         <Button className="bg-black mt-2 text-white" onClick={() => toggleVisibility(index)}>
                             {item_visible[index] ? `Upload ${field}` : `View ${field}`}
